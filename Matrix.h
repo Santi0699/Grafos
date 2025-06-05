@@ -13,6 +13,7 @@ typedef struct _Matrix
 }Matrix;
 
 
+
 typedef struct _vector vector;
 typedef struct _Matrix Matrix;
 Matrix* matrix_new(int row, int col);
@@ -30,5 +31,6 @@ Matrix* matrix_sum(Matrix* m1, Matrix* m2);
 Matrix* matrix_sum_vector(Matrix* m1, vector* v);
 Matrix* matrix_mult(Matrix* m1, Matrix* m2);
 t_elem_matrix matrix_determinant_recursive(Matrix* m);
+int matrix_is_symmetric(Matrix* m);
 
 #endif

@@ -3,33 +3,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "Matrix.h"
+#include "vector.h"
+#include "Listas.h"
 
 #define GRAPH_ELEM int
 
 
-
 typedef struct graphM
 {
-    int numvertices;
+    vector* vertex;
     Matrix* adyacencia;
     
 }graphM;
 
-graphM* graph_new(int vertices)
-{
-    graphM* newg=(graphM*)malloc(sizeof(graphM));
-    if(newg)
-    {
-        newg->numvertices=vertices;
-        newg->adyacencia=matrix_new(vertices,vertices);
-    }
-    return newg;
-}
-
-void graphM_set_adyacense(graphM* g)
-{
-    int row=matrix_rows(g->adyacencia);
-    int col=matrix_columns(g->adyacencia);
-}
+void graphM_set_adyacense_dirigido(graphM* g,int destiny, int target);
+void graphM_set_adyacense_no_dirigido(graphM* g,int destiny, int target);
 
 #endif

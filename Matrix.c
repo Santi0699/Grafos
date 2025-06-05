@@ -247,3 +247,29 @@ t_elem_matrix matrix_determinant_recursive(Matrix* m) {
 
     return det;
 }
+
+int matrix_is_symmetric(Matrix* m) {
+    int rows = matrix_rows(m);
+    int cols = matrix_columns(m);
+
+    if (rows != cols)
+        return 0;  // No es cuadrada, por lo tanto no puede ser simétrica
+
+    int simetrica = 1;  // 1 = verdadera, 0 = falsa
+    int i = 0;
+
+    while (i < rows && simetrica == 1) {
+        int j = i + 1;
+        while (j < cols && simetrica == 1) {
+            t_elem_matrix a = matrix_get(m, i, j);
+            t_elem_matrix b = matrix_get(m, j, i);
+            if (a != b) {
+                simetrica = 0;
+            }
+            j++;
+        }
+        i++;
+    }
+
+    return simetrica;
+}
