@@ -273,7 +273,7 @@ vector* graph_vector_visitados(graphM* g)
 }
 
 
-
+/*
 void print_dgf(graphM* g, int v, int* visitados)
 {
     visitados[v]=1;
@@ -291,7 +291,7 @@ void print_dgf(graphM* g, int v, int* visitados)
     }
     list_free(&adj);
 }
-
+*/
 int print_path_count(graph* g, int s, int t/*, int* visit*/)
 {
     int r=0;
@@ -299,11 +299,11 @@ int print_path_count(graph* g, int s, int t/*, int* visit*/)
     {
         r=1;
     }else{  
-        list* adj=graph_vertex_adjacent_list(g,s);
+        node* adj=graph_vertex_adjacent_list(g,s);
         while(!list_empty(adj))
         {
             int u=list_remove(adj);
-            r+=print_path_count(g,u,t,/*visit*/);
+            r+=print_path_count(g,u,t/*,visit*/);
             /*if(visit[v]==0)
                 {
                     visit[u]=1;
