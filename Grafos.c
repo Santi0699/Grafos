@@ -8,6 +8,7 @@ typedef struct _graph
     vector* vertex;
 }graph;
 
+
 graphM* graph_new(int vertices)
 {
     graphM* newg=(graphM*)malloc(sizeof(graphM));
@@ -237,10 +238,41 @@ void dijkstra(graphM* g, int origen, int* distancias)
     free(visitado);
 }
 
-int graph_edge_cost(graph* g, int v1, int v2);
+int graph_edge_cost(graphM* g, int v1, int v2)
 {
-    
+    int result=-1;
+    if(g!=NULL && g->cost!=NULL)
+    {
+        
+        if(matrix_get(g->adyacencia,v1,v2)==1)
+        {
+            result=matrix_get(g->cost,v1,v2);
+        }
+    }
+
+     return result;
 }
+
+int graph_edge_exists(graphM* g, int v1, int v2)
+{
+    return (g && g->adyacencia &&matrix_get(g->adyacencia,v1,v2)==1)?1:0;
+}
+
+vector* graph_vector_visitados(graphM* g)
+{
+    int n = vector_size(g->vertex);  // cantidad de vértices
+
+    vector* visitados = (vector*)calloc(1, sizeof(vector));
+    if (!visitados) return NULL;
+
+    visitados->a = (t_elem_vector*)calloc(n, sizeof(t_elem_vector));  // todos en 0 (no visitado)
+    visitados->size = n;
+    visitados->maxsize = n;
+
+    return visitados;
+}
+
+
 
 void print_dgf(graphM* g, int v, int* visitados)
 {

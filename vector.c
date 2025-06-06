@@ -1,11 +1,6 @@
 #include "vector.h"
 
-typedef struct _vector{
-    
-    t_elem_vector* a; //array de T_Elem
-    int size; //tam actual
-    int maxsize; //tam maximo
-}vector;
+
 
 
 vector* vector_init(int max)

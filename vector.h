@@ -1,12 +1,17 @@
 #ifndef VECTOR_H
-#define MI_HEADER_H
+#define VECTOR_H
 
 
 #include <stdio.h>
 #include <stdlib.h>
 #define T_Elem Fraction
 #define t_elem_vector int
-typedef struct _vector vector;
+typedef struct _vector{
+    
+    t_elem_vector* a; //array de T_Elem
+    int size; //tam actual
+    int maxsize; //tam maximo
+}vector;
 
 // Declaraciones de funciones
 vector* vector_init(int max);
