@@ -147,6 +147,101 @@ node* graph_vertex_adjacent_list(graphM* g, int v)
     return l;
 }
 
+#include <stdio.h>
+#include <stdlib.h>
+
+#define INF 999999 // Representa "infinito" (sin conexión)
+
+void dijkstra(graphM* g, int origen, int* distancias) {
+    int n = matrix_rows(g->adyacencia);
+    int* visitado = calloc(n, sizeof(int));
+
+    // Inicializamos las distancias
+    for (int i = 0; i < n; i++) {
+        distancias[i] = matrix_get(g->adyacencia, origen, i);
+        if (distancias[i] == 0 && i != origen)
+            distancias[i] = INF;
+    }
+
+    distancias[origen] = 0;
+    visitado[origen] = 1;
+
+    for (int k = 1; k < n; k++) {
+        int min = INF;
+        int u = -1;
+
+        // Buscar el vértice no visitado con menor distancia
+        for (int i = 0; i < n; i++) {
+            if (!visitado[i] && distancias[i] < min) {
+                min = distancias[i];
+                u = i;
+            }
+        }
+
+        if (u == -1) break; // No hay más alcanzables
+
+        visitado[u] = 1;
+
+        // Relajación: actualizar las distancias a los vecinos
+        for (int v = 0; v < n; v++) {
+            int peso = matrix_get(g->adyacencia, u, v);
+            if (peso > 0 && !visitado[v] && distancias[u] + peso < distancias[v]) {
+                distancias[v] = distancias[u] + peso;
+            }
+        }
+    }
+
+    free(visitado);
+}
+
+void dijkstra(graphM* g, int origen, int* distancias)
+{
+    int n = matrix_rows(g->adyacencia);
+    int* visitado = calloc(n, sizeof(int));
+
+    // Inicializamos las distancias
+    for (int i = 0; i < n; i++) {
+        distancias[i] = matrix_get(g->adyacencia, origen, i);
+        if (distancias[i] == 0 && i != origen)
+            distancias[i] = 99999;
+    }
+
+    distancias[origen] = 0;
+    visitado[origen] = 1;
+
+    for (int k = 1; k < n; k++) {
+        int min = 99999;
+        int u = -1;
+
+        // Buscar el vértice no visitado con menor distancia
+        for (int i = 0; i < n; i++) {
+            if (!visitado[i] && distancias[i] < min) {
+                min = distancias[i];
+                u = i;
+            }
+        }
+
+        if (u == -1) break; // No hay más alcanzables
+
+        visitado[u] = 1;
+
+        // Relajación: actualizar las distancias a los vecinos
+        for (int v = 0; v < n; v++) {
+            int peso = matrix_get(g->adyacencia, u, v);
+            if (peso > 0 && !visitado[v] && distancias[u] + peso < distancias[v]) {
+                distancias[v] = distancias[u] + peso;
+            }
+        }
+    }
+
+    free(visitado);
+}
+
+int graph_edge_cost(graph* g, int v1, int v2);
+{
+    
+}
+
 void print_dgf(graphM* g, int v, int* visitados)
 {
     visitados[v]=1;

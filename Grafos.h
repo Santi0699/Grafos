@@ -13,6 +13,7 @@ typedef struct graphM
 {
     vector* vertex;
     Matrix* adyacencia;
+    Matrix* cost;
     
 }graphM;
 
