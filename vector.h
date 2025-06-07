@@ -27,7 +27,7 @@ void vector_resize(vector** v);
 void vector_remove(vector*v, int index);
 void vector_print2(vector* v);
 void vector_add_random2(vector* v);
-
+int vector_get_pos(vector*v, t_elem_vector value);
 
 
 

@@ -5,6 +5,8 @@
 #include "Matrix.h"
 #include "vector.h"
 #include "Listas.h"
+#include "queue_dynamic.h"
+#include "stack_dynamic.h"
 
 #define GRAPH_ELEM int
 

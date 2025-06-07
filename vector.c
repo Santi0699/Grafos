@@ -201,3 +201,16 @@ void vector_add_random2(vector* v)
     }
 
 }
+
+int vector_get_pos(vector*v, t_elem_vector value)
+{
+    if(vector_get(v,0)==value)return 0;
+    int size=vector_size(v);
+    int i=0;
+    while(i<size && vector_get(v,i)!=value)
+    {
+        i++;
+    }
+
+    return i;
+}

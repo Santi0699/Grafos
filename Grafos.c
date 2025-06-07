@@ -272,6 +272,55 @@ vector* graph_vector_visitados(graphM* g)
     return visitados;
 }
 
+void print_BFS(graphM* g, int vertex)
+{
+    int size=vector_size(g->vertex);
+    vector* visitados=vector_init(size);
+    for(int i=0; i<size;i++)
+    {
+        vector_set(visitados,i,0);
+    }
+    vector_set(visitados,vertex,1);
+    queue* q=queue_new(size*2);
+    enqueue(q,vector_get(g->cost,0));
+
+    while(!queue_isempty(q))
+    {
+        GRAPH_ELEM u=dequeue(q);
+        node*l=graph_vertex_adjacent_list(g,u);
+        while (l != NULL) {
+            int adj = l->data;        
+            if (vector_get(visitados, adj) == 0) {
+                vector_set(visitados, adj, 1); 
+                enqueue(q, adj);               
+            }
+            l = l->next;             
+        }
+    }
+}
+
+void print_dsf(graphM* g, int s, int t, int*visit, stack* p)
+{
+    push(p,s);
+    visit[s]=1;
+    if(s==t)
+    {
+        stack_print(s);
+    }else{
+        node* adj=graph_vertex_adjacent_list(g,s);
+        while(adj!=NULL)
+        {
+            int u=node_remove_front(adj);
+            if(visit[u]==0)
+            {
+                print_dsf(g,u,t,visit,p);
+            }
+        }
+        node_free(adj);
+    }
+    pop(p);
+    visit[s]=0;
+}
 
 /*
 void print_dgf(graphM* g, int v, int* visitados)

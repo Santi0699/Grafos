@@ -5,9 +5,18 @@
 #include <stdio.h>
 #define t_elem_node int
 #define t_elem_node_t node*
+typedef struct _node
+{
+    t_elem_node data;
+    struct _node* next;    
+    
+}node;
 
-typedef struct _node node;
-typedef struct _node_t node_t;
+typedef struct _node_t
+{
+    t_elem_node_t data;
+    struct _node_t* next;
+}node_t;
 
 
 node* node_new(t_elem_node data);
@@ -40,5 +49,6 @@ int has_cycle2(node* list);
 void swap_tails(node** list_a, node** list_b, int n);
 int has_cycle(node* list);
 int list_lenght(node* head);
+int list_check_value(node* head,t_elem_node value);
 
 #endif

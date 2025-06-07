@@ -1,17 +1,5 @@
 #include "Listas.h"
 
-typedef struct _node
-{
-    t_elem_node data;
-    struct _node* next;    
-    
-}node;
-
-typedef struct _node_t
-{
-    t_elem_node_t data;
-    struct _node_t* next;
-}node_t;
 
 node* node_new(t_elem_node data)
 {
@@ -556,3 +544,20 @@ void add_last(node** head, t_elem_node_t value)
     *head= value;
 }
 
+int list_check_value(node* head,t_elem_node value)
+{
+    if(head==NULL) return 0;
+
+    node* aux=head;
+    int result=0;
+    while(head!=NULL && head->data!=value)
+    {
+        aux=aux->next;
+    }
+
+    if(head->data==value)
+    {
+        result=1;
+    }
+    return result;
+}
