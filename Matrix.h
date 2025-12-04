@@ -32,5 +32,8 @@ Matrix* matrix_sum_vector(Matrix* m1, vector* v);
 Matrix* matrix_mult(Matrix* m1, Matrix* m2);
 t_elem_matrix matrix_determinant_recursive(Matrix* m);
 int matrix_is_symmetric(Matrix* m);
+void matrix_delete_col(Matrix*m, int c);
+void matrix_delete_row(Matrix*m, int r);
+void matrix_rezise(Matrix*m, int value);
 
 #endif

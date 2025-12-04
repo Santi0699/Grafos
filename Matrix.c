@@ -273,3 +273,56 @@ int matrix_is_symmetric(Matrix* m) {
 
     return simetrica;
 }
+
+void matrix_delete_row(Matrix*m, int r)
+{
+    int row=matrix_rows(m);
+    int col=matrix_columns(m);
+
+    for (int i=r; i<row-1;i++)
+    {
+        for (int j=0; j<col;j++)
+        {
+            t_elem_matrix temp=matrix_get(m,i+1,j);
+            matrix_set(m,i,j,temp);
+        }
+        
+    }
+    m->row=row-1;
+}
+
+void matrix_delete_col(Matrix*m, int c)
+{
+    int row=matrix_rows(m);
+    int col=matrix_columns(m);
+
+    for (int i=c; i<col-1;i++)
+    {
+        for (int j=0; j<row;j++)
+        {
+            t_elem_matrix temp=matrix_get(m,i+1,j);
+            matrix_set(m,j,i,temp);
+        }
+        
+    }
+    m->col=col-1;
+}
+
+void matrix_rezise(Matrix*m, int value)
+{
+    Matrix* aux=matrix_new(value,value);
+
+    int row=matrix_rows(m);
+    int col=matrix_columns(m);
+
+    for(int i=0; i<row; i++)
+    {
+        for(int j=0; i<col; j++)
+        {
+            matrix_set(aux,matrix_get(m,i,j),i,j);
+        }
+    }
+
+    free_matrix(m);
+
+}

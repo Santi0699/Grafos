@@ -364,3 +364,84 @@ int print_path_count(graph* g, int s, int t/*, int* visit*/)
     }
     return r;
 }
+
+vector* graph_degree_to_vector(graphM* g, int* visitados)
+{
+    vector* result= vector_init(vector_size(g->vertex));
+    if(matrix_is_symmetric(g->adyacencia))
+    {
+        int row=matrix_rows(g->adyacencia);
+        for(int i=0; i<row; i++)
+        {
+            int count=0;
+            for(int j=0; j<row; j++)
+            {
+                if(matrix_get(g->adyacencia,i,j)==1)
+                {
+                    count++;
+                }
+            }
+            vector_set(result,i,count);
+        }
+    }
+    return result;
+}
+
+void graph_traspose(graphM*g)
+{
+    if(!matrix_is_symmetric(g->adyacencia))
+    {
+        int row=matrix_rows(g->adyacencia);
+        Matrix* aux=matrix_new(row,row);
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0; j<row; j++)
+            {
+                matrix_set(aux,j,i,matrix_get(g->adyacencia,i,j));
+            }
+        }
+        free_matrix(g->adyacencia);
+        g->adyacencia=aux;
+    }
+}
+/*
+void recorrido_prof_it(graph* g, int origen)
+{
+    int* visit=calloc((graph_vertex_count(g)),sizeof(int));
+    stack* s=stack_new();
+    enqueue(s,origen);
+    while(!stack_isempty(s))
+    {
+        int u=pop(s);
+        visit[u]=1;
+        printf("%d",graph_get(g,u));
+        list*aux=graph_vertex_adjacent_list(g,u);
+        while(!list_eol(l))
+        {
+            int j=list_remove(l);
+            if(visit[j]==0)
+            {
+                push(s,j);
+            }
+        }
+    }
+    stack_free(s);
+}
+
+void recorrido_prof_rec(graph* g, int origen,int* visitados)
+{
+    visitados[origen]=1;
+    node*L=g->a[v];
+    while(L=!NULL)
+    {
+        if(visitados[L->vertice]==0)
+        {
+            visitados[L->vertice]=0;
+            recorrido_prof_rec(g,L->vertex,visitados);
+        }
+        visitados[L->vertice]=0;
+        L=L->next;
+    }
+    printf("%d",g->data);
+}
+    */
