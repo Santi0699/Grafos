@@ -1,3 +1,4 @@
+
 #include "Grafos.h"
 
 typedef struct _graph
@@ -67,7 +68,7 @@ void graph_edge_add_dirigido(graphM* g, int destiny, int target, int weight)
     if(destiny<row && target<col) matrix_set(g->adyacencia,destiny,target,weight);
 }
 
-void graphM_set_adjacency_no_dirigido(graphM* g, int destiny, int target, int weight)
+void graphM_edge_add_no_dirigido(graphM* g, int destiny, int target, int weight)
 {
     int row=matrix_rows(g->adyacencia);
     int col=matrix_columns(g->adyacencia);
@@ -195,48 +196,6 @@ void dijkstra(graphM* g, int origen, int* distancias) {
     free(visitado);
 }
 
-void dijkstra(graphM* g, int origen, int* distancias)
-{
-    int n = matrix_rows(g->adyacencia);
-    int* visitado = calloc(n, sizeof(int));
-
-    // Inicializamos las distancias
-    for (int i = 0; i < n; i++) {
-        distancias[i] = matrix_get(g->adyacencia, origen, i);
-        if (distancias[i] == 0 && i != origen)
-            distancias[i] = 99999;
-    }
-
-    distancias[origen] = 0;
-    visitado[origen] = 1;
-
-    for (int k = 1; k < n; k++) {
-        int min = 99999;
-        int u = -1;
-
-        // Buscar el vértice no visitado con menor distancia
-        for (int i = 0; i < n; i++) {
-            if (!visitado[i] && distancias[i] < min) {
-                min = distancias[i];
-                u = i;
-            }
-        }
-
-        if (u == -1) break; // No hay más alcanzables
-
-        visitado[u] = 1;
-
-        // Relajación: actualizar las distancias a los vecinos
-        for (int v = 0; v < n; v++) {
-            int peso = matrix_get(g->adyacencia, u, v);
-            if (peso > 0 && !visitado[v] && distancias[u] + peso < distancias[v]) {
-                distancias[v] = distancias[u] + peso;
-            }
-        }
-    }
-
-    free(visitado);
-}
 
 int graph_edge_cost(graphM* g, int v1, int v2)
 {
@@ -445,3 +404,4 @@ void recorrido_prof_rec(graph* g, int origen,int* visitados)
     printf("%d",g->data);
 }
     */
+

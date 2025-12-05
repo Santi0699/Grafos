@@ -10,8 +10,8 @@ GrafoM* graph_init(int vertices)
         return NULL;
     }
 
-    result->arista=matrix_new(vertices,vertices);
-    result->peso=matrix_new(vertices,vertices);
+    result->arista=matrix_new2(vertices,vertices);
+    result->peso=matrix_new2(vertices,vertices);
 
     return result;
 
@@ -47,6 +47,16 @@ t_elem_matrix graph_get_peso(GrafoM* g, int src, int dst)
     return (matrix_get(g->peso,src,dst)==0)?-1:matrix_get(g->peso,src,dst);
 }
 
+Matrix* graph_get_matrix_adyacencia(GrafoM* g)
+{
+    return g->arista;
+}
+
+Matrix* graph_get_matrix_peso(GrafoM* g)
+{
+    return g->peso;
+}
+
 void graph_delete_arista_no_dirigido(GrafoM* g, int src,int dst)
 {
     matrix_set(g->arista,src,dst,0);
@@ -79,4 +89,48 @@ void graph_delete_vertex(GrafoM* g, int vertex)
 void graph_add_vertex(GrafoM* g, int vertex)
 {
     matrix_rezise(g->arista, vertex);
+}
+
+
+
+int graph_vertex_grade(GrafoM* g, int v) //Para saber el grado de un vertice hay que recorrer toda la fila, si se quiere
+{                                       // saber todas las aristas se puede empezar desde la diagonal
+    if(g==NULL) return -1;
+
+    int count=0;
+
+    if(!matrix_is_symmetric(g->arista))
+    {
+        puts("El grafo no es de tipo no dirigido");
+        return -2;
+    }else{
+        int col=matrix_columns(g->arista);
+        for(int i=0; i<col;i++)
+        {
+            if(matrix_get(g->arista,v,i)==1)
+            {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
+
+node* graph_list_vertex_adyacentes(GrafoM* g, int v)
+{
+    int col=matrix_columns(g->arista);
+
+    node* result=NULL;
+
+    for(int j=0; j<col; j++)
+    {
+        if(matrix_get(g->arista,v,j)==1)
+        {
+            node* temp=node_new(j);
+            node_add_last1(&result,temp);
+        }
+    }
+
+    return result;
 }

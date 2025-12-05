@@ -92,16 +92,42 @@ void node_add_first2(node** head, node* new_node)
 
 node* node_add_last(node** head, node* new_node)
 {
-    if(node_new!=NULL)
+    node* current= *head;
+    if(new_node!=NULL)
     {
-        while((*head)!=NULL)
+        while(current->next!=NULL)
         {
-            *head= (*head)->next;
+            current= (current)->next;
         }
 
-        (*head)->next=new_node;
+        current->next=new_node;
     }
     return new_node;
+}
+
+void node_add_last1(node** head, node* new_node)
+{
+    
+    if (new_node == NULL) return;
+
+    if(*head==NULL)
+    {
+        *head= new_node;
+        return;
+    }
+
+    node* current= *head;
+
+    if(new_node!=NULL)
+    {
+
+        while(current->next!=NULL)
+        {
+            current= (current)->next;
+        }
+
+        current->next=new_node;
+    }
 }
 
 void node_insert_in_order(node** head, node* new_node)
@@ -407,7 +433,7 @@ void delete_nodes(node** head, node* value)
 
 }
 
-
+/*
 void remove_shared_nodes(node** list_a, node** list_b)
 {
     if(*list_a==NULL || *list_b==NULL) return;
@@ -435,7 +461,7 @@ void remove_shared_nodes(node** list_a, node** list_b)
     }
 
 }
-
+*/
 /*Objetivo: Intercambiar las colas (los últimos n nodos) entre dos listas simplemente enlazadas.
 
 Las listas pueden tener distinta longitud.
@@ -503,6 +529,7 @@ void swap_tails(node** list_a, node** list_b, int n)
 
 }
 //esto detecta si apunta al anterior
+/*
 int has_cycle2(node* list)
 {
     if(list==NULL)return 0;
@@ -533,7 +560,7 @@ int has_cycle(node* list)
 
     return has_cycle_recursive(list,list->next);
 }
-
+*/
 void add_last(node** head, t_elem_node_t value)
 {
     while(*head!=NULL)

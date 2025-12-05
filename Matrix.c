@@ -24,6 +24,45 @@ Matrix* matrix_new(int row, int col)
 
 }
 
+Matrix* matrix_new2(int row, int col)
+{
+    // Reservamos la estructura Matrix e inicializamos en 0
+    Matrix* m = (Matrix*)calloc(1, sizeof(Matrix));
+    if (m == NULL) {
+        puts("Error al reservar memoria para la matriz");
+        return NULL;
+    }
+
+    // Reservamos el vector de punteros a filas, inicializado en 0
+    m->a = (t_elem_matrix**)calloc(row, sizeof(t_elem_matrix*));
+    if (m->a == NULL) {
+        puts("Error al reservar memoria para las filas");
+        free(m);
+        return NULL;
+    }
+
+    // Reservamos cada fila de la matriz, inicializada en 0
+    for (int i = 0; i < row; i++) {
+        m->a[i] = (t_elem_matrix*)calloc(col, sizeof(t_elem_matrix));
+        if (m->a[i] == NULL) {
+            puts("Error al reservar memoria para la fila");
+
+            // Liberamos lo que se reservó antes del error
+            for (int j = 0; j < i; j++) {
+                free(m->a[j]);
+            }
+            free(m->a);
+            free(m);
+            return NULL;
+        }
+    }
+
+    m->row = row;
+    m->col = col;
+
+    return m;
+}
+
 void free_matrix(Matrix* m)
 {
     free(m->a);

@@ -27,6 +27,10 @@ void graph_delete(GrafoM* g);
 int graph_check_arista(GrafoM*g, int src, int dst);
 void graph_delete_vertex(GrafoM* g, int vertex);
 void graph_add_vertex(GrafoM* g, int vertex);
+Matrix* graph_get_matrix_adyacencia(GrafoM* g);
+Matrix* graph_get_matrix_peso(GrafoM* g);
+int graph_vertex_grade(GrafoM* g, int v);
+node* graph_list_vertex_adyacentes(GrafoM* g, int v);
 
 #endif
 

@@ -17,6 +17,7 @@ typedef struct _Matrix
 typedef struct _vector vector;
 typedef struct _Matrix Matrix;
 Matrix* matrix_new(int row, int col);
+Matrix* matrix_new2(int row, int col);
 void free_matrix(Matrix* m);
 int matrix_rows(Matrix* m);
 int matrix_columns(Matrix* m);
