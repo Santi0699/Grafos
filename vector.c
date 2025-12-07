@@ -92,8 +92,6 @@ void vector_add(vector* v, t_elem_vector value)
         v->size = v->size + 1;
     }
 
-
-
 }
 
 void vector_resize(vector** v)

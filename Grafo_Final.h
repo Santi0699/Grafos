@@ -31,6 +31,11 @@ Matrix* graph_get_matrix_adyacencia(GrafoM* g);
 Matrix* graph_get_matrix_peso(GrafoM* g);
 int graph_vertex_grade(GrafoM* g, int v);
 node* graph_list_vertex_adyacentes(GrafoM* g, int v);
+vector* graph_count_vertex(GrafoM*g);
+int graph_cant_vertex(GrafoM*g);
+int graph_cant_adyacencias(GrafoM* g, int vertex);
+void graph_recorrido_amplitud(GrafoM* g, int vertex);
+void graph_recorrido_profundidad(GrafoM* g, int vertex);
 
 #endif
 

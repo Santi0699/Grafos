@@ -134,3 +134,125 @@ node* graph_list_vertex_adyacentes(GrafoM* g, int v)
 
     return result;
 }
+
+vector* graph_count_vertex(GrafoM* g)
+{
+    if(g==NULL||g->arista==NULL||g->peso==NULL)return NULL;
+
+    int dim=matrix_rows(g->arista);
+    vector* result=vector_init(dim);
+
+    if(result!=NULL)
+    {
+        int row=matrix_rows(g->arista);
+        int col=matrix_columns(g->arista);
+        int count = 0;
+        for(int i=0; i<row;i++)
+        {
+            count = 0;
+            for(int j=0;j<col;j++){
+                if(matrix_get(g->arista,i,j)==1)
+                {
+                    count++;
+                }
+            }
+            vector_add(result,count);
+        }
+    }
+
+    return result;
+}
+
+int graph_cant_vertex(GrafoM*g)
+{
+    int result=matrix_rows(g->arista);
+    return result;
+}
+
+int graph_cant_adyacencias(GrafoM* g, int vertex)
+{
+    int result=0;
+    int dim=graph_cant_vertex(g);
+
+    for(int i=0; i<dim;i++)
+    {
+        if(matrix_get(graph_get_matrix_adyacencia(g),vertex,i)==1)
+        {
+            result++;
+        }
+    }
+
+    return result;
+}
+
+void graph_recorrido_amplitud(GrafoM* g, int vertex)
+{
+    int dim=graph_cant_vertex(g);
+    vector* visitados=vector_init(dim);
+    for (int u=0; u<dim;u++)
+    {
+        vector_add(visitados,0);
+    }
+
+    vector_set(visitados,vertex,1);
+
+    queue* temp=queue_new(dim);
+    enqueue(temp,vertex);
+
+    while(!queue_isempty(temp))
+    {
+        int aux=dequeue(temp);
+        for(int i=0; i<dim; i++)
+        {
+            if(matrix_get(graph_get_matrix_adyacencia(g),aux,i)==1 && vector_get(visitados,i)==0)
+            {
+                vector_set(visitados,i,1);
+                enqueue(temp,i);
+            }   
+        }
+        printf("%d->",aux+1);
+    }
+    vector_free(visitados);
+    queue_free(temp);
+
+}
+//En los recorridos de grafps en profundidad se suele procesar el elemento antes de pushear el resto de vertices adyacentes
+//Caso contra a amplitud que se procesa luego de meter.
+void graph_recorrido_profundidad(GrafoM* g, int vertex)
+{
+    int dim=graph_cant_vertex(g);
+    vector* visitados=vector_init(dim);
+    for (int u=0; u<dim;u++)
+    {
+        vector_add(visitados,0);
+    }
+
+    vector_set(visitados,vertex,1);
+
+    stack* temp=stack_new(dim);
+    push(temp,vertex);
+
+    while(!stack_isempty(temp))
+    {
+        int aux=pop(temp);
+        printf("%d->",aux+1);
+        for(int i=0; i<dim; i++)
+        {
+            if(matrix_get(graph_get_matrix_adyacencia(g),aux,i)==1 && vector_get(visitados,i)==0)
+            {
+                vector_set(visitados,i,1);
+                push(temp,i);
+            }   
+        }
+
+    }
+    vector_free(visitados);
+    stack_free(temp);
+
+}
+
+//Digrafo es un grafo dirigido en una sola orientación
+int digraph_count_path(GrafoM* g, int src, int dst)
+{
+    
+}
