@@ -1,8 +1,5 @@
 #include "vector.h"
 
-
-
-
 vector* vector_init(int max)
 {
     vector* v = (vector*)malloc(sizeof(vector));

@@ -50,6 +50,6 @@ void swap_tails(node** list_a, node** list_b, int n);
 //int has_cycle(node* list);
 int list_lenght(node* head);
 int list_check_value(node* head,t_elem_node value);
-void node_add_last1(node** head, node* new_node);
+void node_add_last1(node** head, node* new_node);int list_empty(node* h);
 
 #endif

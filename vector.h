@@ -4,7 +4,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#define T_Elem Fraction
+#include "Listas.h"
+#define T_Elem node*
 #define t_elem_vector int
 typedef struct _vector{
     
@@ -12,6 +13,8 @@ typedef struct _vector{
     int size; //tam actual
     int maxsize; //tam maximo
 }vector;
+
+
 
 // Declaraciones de funciones
 vector* vector_init(int max);

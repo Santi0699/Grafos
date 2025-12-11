@@ -218,6 +218,15 @@ void delete_node2(node** head, t_elem_node v)
     node_free(&aux);
 }
 
+int list_empty(node* h)
+{
+    int result=0;
+    if(h==NULL)
+    {
+        result=1;
+    }
+    return result;
+}
 //1.
 int list_isorder(node* head)
 {
@@ -588,3 +597,4 @@ int list_check_value(node* head,t_elem_node value)
     }
     return result;
 }
+

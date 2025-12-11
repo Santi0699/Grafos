@@ -5,6 +5,7 @@
 #include "queue_dynamic.h"
 #include "stack_dynamic.h"
 #include "Matrix.h"
+#include "vector_g.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -14,6 +15,12 @@ typedef struct _GrafoM
     Matrix* arista;
     Matrix* peso;
 }GrafoM;
+
+typedef struct _GrafoVL
+{
+    vector_g* adyacencia;
+}GrafoVL;
+
 
 GrafoM* graph_init(int vertices);
 void graph_set_arista_no_dirigido(GrafoM* g, int src, int dst);
@@ -36,6 +43,8 @@ int graph_cant_vertex(GrafoM*g);
 int graph_cant_adyacencias(GrafoM* g, int vertex);
 void graph_recorrido_amplitud(GrafoM* g, int vertex);
 void graph_recorrido_profundidad(GrafoM* g, int vertex);
+
+vector_g* graphVL_get_vector_adyacencia(GrafoVL* g);
 
 #endif
 

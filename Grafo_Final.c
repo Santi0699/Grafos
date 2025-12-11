@@ -251,8 +251,209 @@ void graph_recorrido_profundidad(GrafoM* g, int vertex)
 
 }
 
-//Digrafo es un grafo dirigido en una sola orientación
-int digraph_count_path(GrafoM* g, int src, int dst)
+//--------------------------------Funciones vector de lista de adyacencias------------------------------------------------------//
+
+GrafoVL* graphVL_init(int vertex)
 {
+    GrafoVL* result=(GrafoVL*)malloc(sizeof(GrafoVL));
+
+    if(result==NULL) return NULL;
+
+    result->adyacencia=vectorg_init(vertex);
     
+    return result;
 }
+
+void graphVL_free(GrafoVL* g)
+{
+    vectorg_free(g->adyacencia);
+    free(g);
+}
+
+vector_g* graphVL_get_vector_adyacencia(GrafoVL* g)
+{
+    return g->adyacencia;
+}
+
+void graphVL_add_vertex(GrafoVL* g,t_elem_node value)
+{
+    if(g==NULL)return ;
+
+    vectorg_add(g->adyacencia,value);
+}
+
+void graphVL_add_adyacencia_no_dirigido(GrafoVL* g, int pos, t_vector_elem dst)
+{
+    node_add_last1(vectorg_get_head(graphVL_get_vector_adyacencia(g),pos),dst);
+    node_add_last1(vectorg_get_head(graphVL_get_vector_adyacencia(g),dst),pos);
+}
+
+void graphVL_add_adyacencia_dirigido(GrafoVL* g, int pos, t_vector_elem dst)
+{
+    node_add_last1(vectorg_get_head(graphVL_get_vector_adyacencia(g),pos),dst);
+}
+
+//Digrafo es un grafo dirigido en una sola orientación
+int digraph_count_path_acyclic(GrafoM* g, int src, int dst)
+{
+    int result=0;
+    if(src==dst)
+    {
+        result=1;
+    }else
+        {
+            node* aux=vector_get(graphVL_get_vector_adyacencia(g),src);
+            while(!list_empty(aux))
+            {
+                result+=digraph_count_path(g,aux->data,dst);
+                aux=aux->next;
+            }
+        }
+
+    return result;
+}
+
+int digraph_count_path_cyclic(GrafoM* g, int* visitados, int src, int dst)
+{
+    if(src==dst)
+    {
+        return 1;
+    }
+    int result=0;
+    visitados[src]=1;
+
+    node* aux=vector_get(graphVL_get_vector_adyacencia(g),src);
+    while(!list_empty(aux))
+    {
+        int value=aux->data;
+        if(!visitados[value])
+        {
+            result+=digraph_count_path_cyclic(g,visitados,value,dst);
+        }
+        aux=aux->next;
+    }
+    return result;
+}
+
+void graphVL_print_all_path(GrafoVL* g, int src, int dst, int* visitados, vector* path, int index)
+{
+    vector_add(path,src);
+    if(src==dst)
+    {   
+        vector_print2(path);
+        vector_remove(path,vector_size(path)-1);
+        return;
+    }
+
+    visitados[src]=1;
+
+    node* aux=vector_get(graphVL_get_vector_adyacencia(g),src);
+    while(!list_empty(aux))
+    {
+        int value=aux->data;
+        if(!visitados[value])
+        {
+            graphVL_print_all_path(g,value,dst,visitados,path,index+1);
+        }
+        aux=aux->next;
+    }
+
+    visitados[src] = 0;
+    vector_delete_last(path);
+
+}
+
+int graph_has_cycle(GrafoVL* g)
+{
+    int result = 0;
+    int size=vectorg_size(g->adyacencia);
+    int* visitados= calloc(sizeof(size),sizeof(int));
+
+    int i=0;
+    int flag=0;
+
+    while(i<size && flag==0)
+    {
+        if(graph_has_cycle_t(g,visitados,i))
+        {
+            flag=1;
+            result=1;
+        }
+        i++;
+    }
+ 
+    return result;
+}
+
+int graph_has_cycle_t(GrafoVL* g, int* visitados, int src)
+{
+    int flag=0;
+    if(visitados[src]==1)
+    {
+        flag=1;
+    }else{
+        visitados[src]=1;
+        node* aux=vectorg_get(graphVL_get_vector_adyacencia(g),src);
+
+        while(aux!=NULL && flag==0)
+        {
+            if(!visitados[aux->data])
+            {
+                visitados[aux->data]=1;
+                flag=graph_has_cycle_t(g,visitados,aux->data);
+                visitados[aux->data]=0;
+            }
+            aux=aux->next;
+        }
+
+    }
+
+    return flag;
+}
+
+int graph_is_a_star(GrafoVL* g)
+{
+    int result=0;
+    vector_g* v=graphVL_get_vector_adyacencia(g);
+    int v_size=vectorg_size(v);
+    int root=0;
+    int nodos=0;
+    int pos=0;
+
+    for (int i=0; i<v_size; i++)
+    {
+        node* temp= vectorg_get(v,i);
+        int size=list_lenght(temp);
+        if(size > 1 && size < v_size-1)
+        {
+            root++;
+            pos=i;
+        }else if(size==1)
+            {
+                nodos++;
+            }
+    }
+
+    if(root!=1 && nodos != v_size - 1)
+    {
+        result=0;
+    }
+
+    if (result==1)
+    {
+        for(int j=0; j<v_size; j++)
+        {
+            if(j!=pos)
+            {
+                node* temp=vectorg_get(v,j);
+                if(temp->data!=pos)
+                {
+                    result=0;
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
